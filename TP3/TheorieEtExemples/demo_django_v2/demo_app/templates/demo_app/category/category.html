@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2>{{ category.name }}</h2>
+
+{% if products|length > 0 %}
+<h4>Liste des produits</h4>
+<ul>
+  {% for product in products %}
+  <li>{{ product.name }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Aucun produit associé</p>
+{% endif %}
+
+<div>
+  <a href="{% url 'category_list' %}" class="btn btn-secondary">Retour</a>
+  {% if perms.demo_app.change_category %}
+  <a href="{% url 'category_edit' category.id %}" class="btn btn-primary">Éditer</a>
+  {% endif %}
+  {% if perms.demo_app.add_product %}
+  <a href="{% url 'product_create' %}?catid={{ category.id }}" class="btn btn-primary">Ajouter un produit</a>
+  {%endif %}
+
+  {% if perms.demo_app.delete_category %}
+  <!-- Bootstrap 5.2 Button trigger modal -->
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+    Supprimer
+  </button>
+  {%endif %}
+</div>
+
+{% if perms.demo_app.delete_category %}
+<!-- Bootstrap 5.2 Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">{{ category.name }}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-start">
+        <p>Êtes-vous certain de vouloir supprimer cette catégorie?</p>
+        {% if products|length > 0 %}
+        <p>{{ products|length }} produit{{ products|pluralize:'s' }} associé{{ products|pluralize:'s' }}</p>
+        {% else %}
+        <p>Aucun produit associé</p>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+        <a href="{% url 'category_delete' category.id %}" class="btn btn-danger">Oui</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

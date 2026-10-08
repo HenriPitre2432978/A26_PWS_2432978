@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Mes albums{% endblock %}
+{% block content %}
+    <h1>Mes albums</h1>                            
+    <a href="{% url 'vinylvault:ajouter_album' %}" class="btn btn-primary mb-3">
+                                + Ajouter un album
+    </a>
+
+    {% if albums %}
+        <div class="row">
+            {% for album in albums %}
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-white bg-opacity-75 ">
+                        <div class="card-body">                            
+                            <h5 class="card-title">{% if album.isFavori %} ⭐ {% endif %} {{ album.titre }}</h5>
+                            <p class="card-text">{{ album.artiste }} — {{ album.annee_sortie }}</p>
+                            
+                            <a href="{% url 'vinylvault:detail_album' pk=album.pk %}" class="btn btn-sm btn-outline-primary">
+                                Voir les détails
+                            </a>
+                        </div>
+                         <a href="{% url 'vinylvault:modifier_album' pk=album.pk %}" 
+                        class="btn btn-sm btn-outline-secondary">
+                        Modifier
+                    </a>
+                    <a href="{% url 'vinylvault:supprimer_album' pk=album.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucun album pour l'instant.</p>
+    {% endif %}
+{% endblock %}

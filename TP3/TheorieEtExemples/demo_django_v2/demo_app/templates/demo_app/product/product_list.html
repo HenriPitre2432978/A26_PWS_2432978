@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Liste des produits{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2>Liste des produits</h2>
+
+{% if products|length > 0 %}
+<table id="products-table" class="table">
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>{{ product.name }}</td>
+      <td>
+        {% if perms.demo_app.change_product %}
+        <a href="{% url 'product_edit' product.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
+        {% endif %}
+        {% if perms.demo_app.delete_product %}
+        <a href="{% url 'product_delete' product.id %}"><i class="fa-regular fa-trash-can"></i></a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Aucun produit existant</p>
+{% endif %}
+
+{% if perms.demo_app.add_product %}
+<div>
+  <a href="{% url 'product_create' %}" class="btn btn-primary">Ajouter un produit</a>
+</div>
+{% endif %}
+
+{% endblock %}

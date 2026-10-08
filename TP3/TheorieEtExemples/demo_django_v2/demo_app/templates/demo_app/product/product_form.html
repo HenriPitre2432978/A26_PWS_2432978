@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ action_text }} un produit{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2>{{ action_text }} un produit</h2>
+
+<div class="offset-md-1 offset-lg-2 col-md-10 col-lg-8">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <div>
+      {% if return_url %}
+      <a href="{{ return_url }}" class="btn btn-secondary">Retour</a>
+      {% else %}
+      <a href="{% url 'product_list' %}" class="btn btn-secondary">Retour</a>
+      {% endif %}
+      <input type="submit" value="{{ action_text }}" class="btn btn-primary" />
+    </div>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Liste des catégories{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2>Liste des catégories</h2>
+
+{% if categories|length > 0 %}
+<ul>
+  {% for category in categories %}
+  <li><a href="{% url 'category' id=category.id %}">{{ category.name }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Aucune catégorie existante</p>
+{% endif %}
+
+{% if perms.demo_app.add_category %}
+<div>
+  <a href="{% url 'category_create' %}" class="btn btn-primary">Ajouter une catégorie</a>
+</div>
+{% endif %}
+
+{% endblock %}

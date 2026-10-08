@@ -1,0 +1,63 @@
+##############################################
+AIDE-MÉMOIRE des commandes de base pour Python
+##############################################
+
+Ces commandes doivent être exécutée dans un terminal PowerShell
+
+
+-----
+Pour connaître la version de python installée :
+python -V
+python --version
+
+Il est possible que vous deviez utiliser "py" au lieu de "python" :
+py -V
+py --version
+
+
+-----
+Environnement virtual :
+Requis pour exécuter votre code python.
+C'est dans cet environnement que seront installés les différents modules python.
+C'est dans cet environnement que votre programme python s'exécute.
+
+
+-----
+Pour créer un environnement virtuel :
+Assurez-vous d'être positionné dans le répertoire racine de votre projet.
+python -m venv .venv
+
+-----
+Pour activer un environnement virtuel :
+.venv/Scripts/Activate.ps1
+
+Si vous avez un message qui mentionne que vous n'avez pas les permissions..., exécutez préalablement :
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+
+***** Dans l'environnement virtuel *****
+
+	-----
+	Pour faire la mise à jour du programme pip (programme qui permet d'installer les modules) :
+	python -m pip install --upgrade pip
+
+	-----
+	Pour installer un module (exemple scipy) :
+	pip install scipy
+
+	-----
+	Pour générer requirements.txt :
+	Ce fichier contiendra la liste de tous les modules (+ versions) de votre environnement virtuel actuel
+	pip freeze > requirements.txt
+
+	-----
+	Pour restorer les packages :
+	Cette commande installe dans votre environnement virtuel tous les modules listés dans requirements.txt 
+	pip install -r requirements.txt
+
+	-----
+	Pour quitter l'environnement virtuel :
+	deactivate
+
+*****
+

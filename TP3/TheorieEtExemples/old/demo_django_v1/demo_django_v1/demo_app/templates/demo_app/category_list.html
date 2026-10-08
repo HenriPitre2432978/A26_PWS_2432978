@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Liste des catégories{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<p>Bonjour {{ firstname }}!</p>
+
+<h2>Liste des catégories</h2>
+
+<ul>
+  {% for category in categories %}
+  <li><a href="{% url 'category' id=category.id %}">{{ category.name }}</a></li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

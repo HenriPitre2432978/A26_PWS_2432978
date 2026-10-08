@@ -1,0 +1,74 @@
+from django import forms
+import re
+from .models import Artiste, Album, Song
+from datetime import datetime
+
+class ArtisteForm(forms.ModelForm):
+    class Meta:
+        model = Artiste
+        fields = ['nom', 'pays']
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control'}),
+            'pays': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class AlbumForm(forms.ModelForm):
+    class Meta:
+        model = Album
+        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'note', 'statut', 'isFavori']
+        widgets = {
+            'titre': forms.TextInput(attrs={'class': 'form-control'}),
+            'artiste': forms.Select(attrs={'class': 'form-select'}),
+            'genre': forms.Select(attrs={'class': 'form-select'}),
+            'annee_sortie': forms.NumberInput(attrs={'class': 'form-control'}),
+            'note': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 5}),
+            'statut': forms.Select(attrs={'class': 'form-select'}),
+            'isFavori': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+class SongForm(forms.ModelForm):
+    class Meta:
+        model = Song
+        fields = ['titre', 'duree', 'nb']
+        widgets = {
+            'titre': forms.TextInput(attrs={'class': 'form-control'}),
+            'duree': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ex: 3:45'}),
+            'nb': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
+        }
+
+    def __init__(self, *args, album=None, **kwargs):
+        # l'album n'est pas un champ du form (il vient de l'URL), je le garde en attribut
+        # pour aller comparer le nb avec les pistes deja existantes dans clean_nb
+        self.album = album
+        super().__init__(*args, **kwargs)
+
+    #Methodes clean_X lancées automatiquement par django lorsque is_valid est called
+    #================== ERREUR FORMS 
+    def clean_annee_sortie(self):
+        annee = self.cleaned_data['annee_sortie']
+        if annee < 1900 or annee > datetime.now().year:
+            raise forms.ValidationError("L'année doit être entre 1900 et celle actuelle.")
+        return annee
+
+    def clean_note(self):
+        note = self.cleaned_data['note']
+        if note < 0 or note > 5:
+            raise forms.ValidationError("La note doit être entre 0 et 5.")
+        return note
+
+    def clean_duree(self):
+        duree = self.cleaned_data['duree']
+        if not re.match(r'^\d{1,2}:\d{2}$', duree):
+            raise forms.ValidationError("Le format doit être m:ss ou mm:ss (ex: 3:45, 12:07).")
+        return duree
+
+    def clean_nb(self):
+        nb = self.cleaned_data['nb']
+        if self.album is not None:
+            dernier = self.album.songs.order_by('-nb').first()
+            if dernier is not None and nb <= dernier.nb:
+                raise forms.ValidationError(
+                    f"Le numéro doit être supérieur au dernier numéro existant ({dernier.nb})."
+                )
+        return nb

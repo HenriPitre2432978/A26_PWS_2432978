@@ -1,0 +1,110 @@
+##############################################
+AIDE-MÉMOIRE des commandes de base pour Django
+##############################################
+
+Ces commandes doivent être exécutée dans un terminal PowerShell
+
+
+-----
+Pour connaître la version de python installée :
+python -V
+python --version
+
+Il est possible que vous deviez utiliser "py" au lieu de "python" :
+py -V
+py --version
+
+
+-----
+Environnement virtual :
+Requis pour exécuter votre code python.
+C'est dans cet environnement que seront installés les différents modules python.
+C'est dans cet environnement que votre programme python s'exécute.
+
+
+-----
+Pour créer un environnement virtuel :
+Assurez-vous d'être positionné dans le répertoire racine de votre projet.
+python -m venv .venv
+
+-----
+Pour activer un environnement virtuel :
+.venv/Scripts/Activate.ps1
+
+Si vous avez un message qui mentionne que vous n'avez pas les permissions..., exécutez avant:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+
+***** Dans l'environnement virtuel *****
+
+	-----
+	Pour faire la mise à jour du programme pip (programme qui permet d'installer les modules) :
+	python -m pip install --upgrade pip
+
+	-----
+	Pour installer Django :
+	pip install django
+
+	-----
+	Pour voir la version de Django installée :
+	python -m django --version
+
+	-----
+	(Si vous utilisez MySQL) Pour installer le module mysqlclient :
+	pip install mysqlclient
+
+	-----
+	(Si vous utiliser des FileField ou ImageField) Pour installer le module Pillow
+	python -m pip install --upgrade Pillow
+
+	-----
+	Pour générer requirements.txt :
+	Ce fichier contiendra la liste de tous les modules (+ versions) de votre environnement virtuel actuel
+	pip freeze > requirements.txt
+
+	-----
+	Pour restorer les packages :
+	Cette commande installe dans votre environnement virtuel tous les modules listés dans requirements.txt 
+	pip install -r requirements.txt
+
+	-----
+	Pour créer la structure d'un projet Django (après, déplacez-vous dans le répertoire racine de demo_project):
+	django-admin startproject demo_project
+
+
+	***** Dans un projet Django *****
+
+		-----
+		Pour créer une nouvelle application :
+		django-admin startapp demo_app
+
+		-----
+		Pour générer les migrations Django :
+		python manage.py makemigrations
+
+		-----
+		Pour appliquer les migrations :
+		python manage.py migrate
+
+		-----
+		Pour créer un superuser dans Django (pour se connecter au module d'administration) :
+		python manage.py createsuperuser
+		
+		-----
+		Pour modifier le mot de passe d'un user :
+		python manage.py changepassword nom_du_user
+
+		-----
+		Pour lancer le serveur web :
+		python manage.py runserver
+		
+		Si vous voulez sélectionner un port spécifique :
+		python manage.py runserver 8080
+
+	*****
+
+	-----
+	Pour quitter l'environnement virtuel :
+	deactivate
+
+*****

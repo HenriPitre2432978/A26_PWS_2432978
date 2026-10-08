@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}{{ action_text }} une catégorie{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2>{{ action_text }} une catégorie</h2>
+
+<div class="offset-md-1 offset-lg-2 col-md-10 col-lg-8">
+  <form method="post">
+    {% csrf_token %}
+    <!--
+    <label for="name">Nom :</label>
+    <input id="name" type="text" name="name" maxlength="50" value="{{ form.name.value|default_if_none:'' }}" required>
+    -->
+    {{ form }}
+    <!--
+    Par défaut {{ form }} va séparer les champs en <div>
+    Il existe aussi :
+      {{ form.as_p}}
+      <table>{{ form.as_table }}</table>
+      <ul>{{ form.as_ul }}</ul>
+    -->
+    <div>
+      <a href="{% url 'category_list' %}" class="btn btn-secondary">Retour</a>
+      <input type="submit" value="{{ action_text }}" class="btn btn-primary" />
+    </div>
+  </form>
+</div>
+
+{% endblock %}
