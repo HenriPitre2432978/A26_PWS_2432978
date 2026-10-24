@@ -50,14 +50,30 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 	Ce fichier contiendra la liste de tous les modules (+ versions) de votre environnement virtuel actuel
 	pip freeze > requirements.txt
 
+Pour générer en utf-8
+	pip freeze | Out-File -Encoding utf8 requirements.txt
+
 	-----
 	Pour restorer les packages :
 	Cette commande installe dans votre environnement virtuel tous les modules listés dans requirements.txt 
 	pip install -r requirements.txt
 
 	-----
+	Pour démarrer le serveur:
+	python manage.py runserver
+
+	-----
 	Pour quitter l'environnement virtuel :
 	deactivate
 
 *****
+
+Pour refaire db.sqlite3 (Migrations manquantes, etc.)
+python manage.py migrate
+
+refill data à partir du script seed.py
+python seed.py
+
+//créer admin si manquant
+python manage.py createsuperuser
 

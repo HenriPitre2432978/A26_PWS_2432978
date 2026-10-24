@@ -26,6 +26,17 @@ class AlbumForm(forms.ModelForm):
             'statut': forms.Select(attrs={'class': 'form-select'}),
             'isFavori': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+    def clean_annee_sortie(self):
+        annee = self.cleaned_data['annee_sortie']
+        if annee < 1900 or annee > datetime.now().year:
+            raise forms.ValidationError("L'année doit être entre 1900 et celle actuelle.")
+        return annee
+
+    def clean_note(self):
+        note = self.cleaned_data['note']
+        if note < 0 or note > 5:
+            raise forms.ValidationError("La note doit être entre 0 et 5.")
+        return note
 
 class SongForm(forms.ModelForm):
     class Meta:
@@ -45,17 +56,6 @@ class SongForm(forms.ModelForm):
 
     #Methodes clean_X lancées automatiquement par django lorsque is_valid est called
     #================== ERREUR FORMS 
-    def clean_annee_sortie(self):
-        annee = self.cleaned_data['annee_sortie']
-        if annee < 1900 or annee > datetime.now().year:
-            raise forms.ValidationError("L'année doit être entre 1900 et celle actuelle.")
-        return annee
-
-    def clean_note(self):
-        note = self.cleaned_data['note']
-        if note < 0 or note > 5:
-            raise forms.ValidationError("La note doit être entre 0 et 5.")
-        return note
 
     def clean_duree(self):
         duree = self.cleaned_data['duree']

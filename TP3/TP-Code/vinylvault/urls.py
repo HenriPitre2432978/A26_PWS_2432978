@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views
+from .views import *
+
 
 app_name = 'vinylvault'  #  pour {% url 'vinylvault:x' %}  au lieu de hardcode
 
@@ -21,3 +22,4 @@ urlpatterns = [
 
     path('albums/<int:album_pk>/chansons/ajouter/', views.ajouter_chanson, name='ajouter_chanson'),
 ]
+

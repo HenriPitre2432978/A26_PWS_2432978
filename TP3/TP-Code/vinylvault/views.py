@@ -30,6 +30,7 @@ def ajouter_artiste(request):
             form.save()
             messages.success(request, "L'artiste a été ajouté avec succès.")
             return redirect('vinylvault:liste_artistes')
+        else:
             messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
     else:
         form = ArtisteForm()
@@ -44,11 +45,11 @@ def modifier_artiste(request, pk):
 
     form = ArtisteForm(request.POST, instance=artiste)
     if not form.is_valid():
-            messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
-    return render(request, 'vinylvault/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
+        messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+        return render(request, 'vinylvault/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
 
     form.save()
-    messages.success(request, "L'artiste a été ajouté avec succès.")
+    messages.success(request, "L'artiste a été modifié avec succès.")
     return redirect('vinylvault:liste_artistes')
 
 
@@ -86,6 +87,7 @@ def modifier_album(request, pk):
             form.save()
             messages.success(request, "L'album a été modifié avec succès.")
             return redirect('vinylvault:detail_album', pk=album.pk)
+        else:
             messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
     else:
         form = AlbumForm(instance=album)
