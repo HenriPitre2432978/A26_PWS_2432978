@@ -20,3 +20,12 @@ input:not(input[type="checkbox"]) {
   background: radial-gradient(lightgray, gray) !important;
   /*Pas super mais form-select écrase le bg et moins long de prioriser plutôt que de recréer la classe (padding, arrondi, etc.) */
 }
+
+.album-cover {
+  height: 200px;
+  object-fit: cover;
+}
+
+.album-cover-detail {
+  max-height: 250px;
+}

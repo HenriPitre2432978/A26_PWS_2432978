@@ -16,7 +16,9 @@ class ArtisteForm(forms.ModelForm):
 class AlbumForm(forms.ModelForm):
     class Meta:
         model = Album
-        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'note', 'statut', 'isFavori']
+        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'note', 'statut', 'image', 'isFavori']
+        
+        #respecify forms to add bootstrap classes
         widgets = {
             'titre': forms.TextInput(attrs={'class': 'form-control'}),
             'artiste': forms.Select(attrs={'class': 'form-select'}),
@@ -24,6 +26,7 @@ class AlbumForm(forms.ModelForm):
             'annee_sortie': forms.NumberInput(attrs={'class': 'form-control'}),
             'note': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 5}),
             'statut': forms.Select(attrs={'class': 'form-select'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'isFavori': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
     def clean_annee_sortie(self):

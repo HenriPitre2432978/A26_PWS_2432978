@@ -28,6 +28,8 @@ class Album(models.Model):
     statut = models.CharField(max_length=10, choices=STATUT_CHOICES, default='souhait')
     isFavori = models.BooleanField(default=False, verbose_name="Coup de coeur")
 
+    image = models.ImageField(default="", upload_to='albums/', verbose_name="Image")
+
     def __str__(self):
         return f"{self.titre} — {self.artiste}"
 

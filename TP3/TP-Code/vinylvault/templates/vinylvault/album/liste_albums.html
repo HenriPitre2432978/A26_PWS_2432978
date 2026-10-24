@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Mes albums{% endblock %}
 {% block content %}
-    <h1>Mes albums</h1>                            
+    <h1>Mes albums</h1>
     <a href="{% url 'vinylvault:ajouter_album' %}" class="btn btn-primary mb-3">
-                                + Ajouter un album
+        + Ajouter un album
     </a>
 
     {% if albums %}
@@ -11,7 +12,13 @@
             {% for album in albums %}
                 <div class="col-md-4 mb-3">
                     <div class="card bg-white bg-opacity-75 ">
-                        <div class="card-body">                            
+                        <!-- image du media sinon image par défaut du static -->
+                        {% if album.image %}
+                        <img src="{% get_media_prefix %}{{ album.image }}" alt="{{ album.titre }}" class="card-img-top album-cover" />
+                        {% else %}
+                        <img src="{% static 'vinylvault/images/default-image.webp' %}" alt="{{ album.titre }}" class="card-img-top album-cover" />
+                        {% endif %}
+                        <div class="card-body">
                             <h5 class="card-title">{% if album.isFavori %} ⭐ {% endif %} {{ album.titre }}</h5>
                             <p class="card-text">{{ album.artiste }} — {{ album.annee_sortie }}</p>
                             
@@ -19,7 +26,7 @@
                                 Voir les détails
                             </a>
                         </div>
-                         <a href="{% url 'vinylvault:modifier_album' pk=album.pk %}" 
+                         <a href="{% url 'vinylvault:modifier_album' pk=album.pk %}"
                         class="btn btn-sm btn-outline-secondary">
                         Modifier
                     </a>

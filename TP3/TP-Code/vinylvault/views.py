@@ -12,15 +12,15 @@ def a_propos(request):
 
 def liste_albums(request):
     albums = Album.objects.all()
-    return render(request, 'vinylvault/liste_albums.html', {'albums': albums})
+    return render(request, 'vinylvault/album/liste_albums.html', {'albums': albums})
 
 def detail_album(request, pk):
     album = get_object_or_404(Album, pk=pk)
-    return render(request, 'vinylvault/detail_album.html', {'album': album})
+    return render(request, 'vinylvault/album/detail_album.html', {'album': album})
 
 def liste_artistes(request):
     artistes = Artiste.objects.all()
-    return render(request, 'vinylvault/liste_artistes.html', {'artistes': artistes})
+    return render(request, 'vinylvault/artiste/liste_artistes.html', {'artistes': artistes})
 
 #=========================== Artiste
 def ajouter_artiste(request):
@@ -34,19 +34,19 @@ def ajouter_artiste(request):
             messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
     else:
         form = ArtisteForm()
-    return render(request, 'vinylvault/artiste_form.html', {'form': form, 'titre': 'Ajouter un artiste'})
+    return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': 'Ajouter un artiste'})
 
 
 def modifier_artiste(request, pk):
     artiste = get_object_or_404(Artiste, pk=pk)
     if request.method != 'POST':
         form = ArtisteForm(instance=artiste)
-        return render(request, 'vinylvault/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
+        return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
 
     form = ArtisteForm(request.POST, instance=artiste)
     if not form.is_valid():
         messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
-        return render(request, 'vinylvault/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
+        return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
 
     form.save()
     messages.success(request, "L'artiste a été modifié avec succès.")
@@ -60,14 +60,14 @@ def supprimer_artiste(request, pk):
         artiste.delete()
         messages.success(request, f"L'artiste « {nom} » a été supprimé.")
         return redirect('vinylvault:liste_artistes')
-    return render(request, 'vinylvault/artiste_confirm_delete.html', {'artiste': artiste})
+    return render(request, 'vinylvault/artiste/artiste_confirm_delete.html', {'artiste': artiste})
 
 
 #=========================== Album
 
 def ajouter_album(request):
     if request.method == 'POST':
-        form = AlbumForm(request.POST)
+        form = AlbumForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "L'album a été ajouté avec succès.")
@@ -76,13 +76,13 @@ def ajouter_album(request):
             messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
     else:
         form = AlbumForm()
-    return render(request, 'vinylvault/album_form.html', {'form': form, 'titre': 'Ajouter un album'})
+    return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': 'Ajouter un album'})
 
 
 def modifier_album(request, pk):
     album = get_object_or_404(Album, pk=pk)
     if request.method == 'POST':
-        form = AlbumForm(request.POST, instance=album)
+        form = AlbumForm(request.POST, request.FILES, instance=album)
         if form.is_valid():
             form.save()
             messages.success(request, "L'album a été modifié avec succès.")
@@ -91,7 +91,7 @@ def modifier_album(request, pk):
             messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
     else:
         form = AlbumForm(instance=album)
-    return render(request, 'vinylvault/album_form.html', {'form': form, 'titre': "Modifier l'album"})
+    return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': "Modifier l'album"})
 
 
 def supprimer_album(request, pk):
@@ -101,7 +101,7 @@ def supprimer_album(request, pk):
         album.delete()
         messages.success(request, f"L'album « {titre} » a été supprimé.")
         return redirect('vinylvault:liste_albums')
-    return render(request, 'vinylvault/album_confirm_delete.html', {'album': album})
+    return render(request, 'vinylvault/album/album_confirm_delete.html', {'album': album})
 
 #=========================== chanson
 

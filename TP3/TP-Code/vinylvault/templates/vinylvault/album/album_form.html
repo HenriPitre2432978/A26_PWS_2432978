@@ -2,7 +2,8 @@
 {% block title %}{{ titre }}{% endblock %}
 {% block content %}
     <h1>{{ titre }}</h1>
-    <form method="post">
+    <!--enctype form data pour faire fonctionner img upload-->
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-secondary">Enregistrer</button>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from . import views
 
 
 app_name = 'vinylvault'  #  pour {% url 'vinylvault:x' %}  au lieu de hardcode

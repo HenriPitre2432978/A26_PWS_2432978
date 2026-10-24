@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Supprimer{% endblock %}
 {% block content %}
     <h1>Confirmer la suppression</h1>
     <p>Es-tu sûr de vouloir supprimer l'album <strong>{{ album.titre }}</strong> ?</p>
+    <!-- show img si existante seulement sinon rien -->
+    {% if album.image %}
+    <div class="mb-3">
+        <img class="img-thumbnail album-cover-detail" src="{% get_media_prefix %}{{ album.image }}" alt="{{ album.titre }}" />
+    </div>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Confirmer</button>

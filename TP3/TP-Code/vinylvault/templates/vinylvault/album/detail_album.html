@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}{{ album.titre }}{% endblock %}
 {% block content %}
     {% if album.isFavori %}<span class="badge bg-secondary text-warning">⭐ Coup de coeur!</span>{% endif %}
     <h1>{{ album.titre }}</h1>
+
+    <!-- image du media sinon image par défaut du static -->
+    {% if album.image %}
+    <img src="{% get_media_prefix %}{{ album.image }}" alt="{{ album.titre }}" class="img-thumbnail album-cover-detail mb-3" />
+    {% else %}
+    <img src="{% static 'vinylvault/images/default-image.webp' %}" alt="{{ album.titre }}" class="img-thumbnail album-cover-detail mb-3" />
+    {% endif %}
 
     <p><strong>Artiste :</strong> {{ album.artiste }}</p>
     <p><strong>Genre :</strong> {{ album.genre|default:"Non spécifié" }}</p>

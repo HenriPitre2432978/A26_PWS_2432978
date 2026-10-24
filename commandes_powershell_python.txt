@@ -31,6 +31,10 @@ python -m venv .venv
 Pour activer un environnement virtuel :
 .venv/Scripts/Activate.ps1
 
+-----
+Pour démarrer le serveur:
+python manage.py runserver
+
 Si vous avez un message qui mentionne que vous n'avez pas les permissions..., exécutez préalablement :
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 
@@ -58,9 +62,7 @@ Pour générer en utf-8
 	Cette commande installe dans votre environnement virtuel tous les modules listés dans requirements.txt 
 	pip install -r requirements.txt
 
-	-----
-	Pour démarrer le serveur:
-	python manage.py runserver
+
 
 	-----
 	Pour quitter l'environnement virtuel :
