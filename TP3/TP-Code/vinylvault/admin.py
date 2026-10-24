@@ -108,13 +108,21 @@ class GenreAdmin(admin.ModelAdmin):
 
     view_albums_link.short_description = "Albums associés"
 
+class SongInline(admin.TabularInline):
+    # Affichage et modification DANS l'affichage album admin
+    model = Song
+    #add ligne vide pour ajouter une chanson a fin
+    extra = 1 
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-    form = AlbumForm 
+    form = AlbumForm  
 
-    #personnel au gout de l'utilisateur donc pas dans l'admin (une excuse pour utiliser exclude dans le fond) 
-    exclude = ['note',] 
+    #personnel au gout de l'utilisateur donc pas dans l'admin (une excuse pour utiliser exclude dans le fond)
+    exclude = ['note',]
+
+    inlines = [SongInline,]
+    list_editable = ['statut', 'isFavori',]  # modifiable direct dans la liste, sans ouvrir l'album
     list_display = ['album_titre_with_image', 'artiste', 'genre', 'annee_sortie', 'statut', 'isFavori']
     list_filter = ['isFavori','statut','genre',]
     ordering = ['titre',]

@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Album, Artiste, Song
 from .forms import ArtisteForm, AlbumForm, SongForm
+from django.core.paginator import Paginator
 
-#GOTO Methods
 def accueil(request):
     return render(request, 'vinylvault/accueil.html')
 
@@ -12,7 +12,20 @@ def a_propos(request):
 
 def liste_albums(request):
     albums = Album.objects.all()
-    return render(request, 'vinylvault/album/liste_albums.html', {'albums': albums})
+
+    #nb items per page
+    #TODO: mettre a 9 quand les fixtures aura + de data
+    paginator = Paginator(albums, 3)
+    page_number = request.GET.get('page') or 1
+
+    #ajouter le détail de la page en contexte (pour comprendre le param en ?get )
+    context = {
+        'range_pages': range(1, paginator.num_pages + 1),
+        'page_albums': paginator.get_page(page_number),
+    }
+
+    return render(request, 'vinylvault/album/liste_albums.html', context)
+    
 
 def detail_album(request, pk):
     album = get_object_or_404(Album, pk=pk)
