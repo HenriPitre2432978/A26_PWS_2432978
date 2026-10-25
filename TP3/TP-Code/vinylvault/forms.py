@@ -1,6 +1,6 @@
 from django import forms
 import re
-from .models import Artiste, Album, Song
+from .models import Artiste, Album, AlbumUtilisateur, Song
 from datetime import datetime
 
 class ArtisteForm(forms.ModelForm):
@@ -16,7 +16,7 @@ class ArtisteForm(forms.ModelForm):
 class AlbumForm(forms.ModelForm):
     class Meta:
         model = Album
-        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'note', 'statut', 'image', 'isFavori']
+        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'image']
         
         #respecify forms to add bootstrap classes
         widgets = {
@@ -24,16 +24,25 @@ class AlbumForm(forms.ModelForm):
             'artiste': forms.Select(attrs={'class': 'form-select'}),
             'genre': forms.Select(attrs={'class': 'form-select'}),
             'annee_sortie': forms.NumberInput(attrs={'class': 'form-control'}),
-            'note': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 5}),
-            'statut': forms.Select(attrs={'class': 'form-select'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'isFavori': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
     def clean_annee_sortie(self):
         annee = self.cleaned_data['annee_sortie']
         if annee < 1900 or annee > datetime.now().year:
             raise forms.ValidationError("L'année doit être entre 1900 et celle actuelle.")
         return annee
+
+
+# form des infos perso du user sur un album (statut, note, coup de coeur)
+class AlbumUtilisateurForm(forms.ModelForm):
+    class Meta:
+        model = AlbumUtilisateur
+        fields = ['statut', 'note', 'isFavori']
+        widgets = {
+            'statut': forms.Select(attrs={'class': 'form-select'}),
+            'note': forms.NumberInput(attrs={'class': 'form-control', 'min': 0, 'max': 5}),
+            'isFavori': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
 
     def clean_note(self):
         note = self.cleaned_data['note']

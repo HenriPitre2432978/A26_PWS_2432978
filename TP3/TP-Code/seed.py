@@ -234,9 +234,7 @@ def run():
             defaults={
                 "genre": genre,
                 "annee_sortie": album_data["annee_sortie"],
-                "note": album_data["note"],
-                "statut": album_data["statut"],
-                "isFavori": album_data["isFavori"],
+                # note / statut / isFavori sont maintenant perso a chaque user (AlbumUtilisateur)
             },
         )
 

@@ -127,7 +127,8 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # pour que les messages 'error' de Django s'affichent en rouge (classe Bootstrap alert-danger)
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
-}DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+}
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/member/login/'
 LOGIN_REDIRECT_URL = '/'

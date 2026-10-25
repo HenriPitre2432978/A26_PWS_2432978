@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Mes albums{% endblock %}
+{% block title %}Catalogue d'albums{% endblock %}
 {% block content %}
-    <h1>Mes albums</h1>
+    <h1>Catalogue d'albums</h1>
     <a href="{% url 'vinylvault:ajouter_album' %}" class="btn btn-primary mb-3">
         + Ajouter un album
     </a>
@@ -19,7 +19,7 @@
                         <img src="{% static 'vinylvault/images/default-image.webp' %}" alt="{{ album.titre }}" class="card-img-top album-cover" />
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{% if album.isFavori %} ⭐ {% endif %} {{ album.titre }}</h5>
+                            <h5 class="card-title">{% if album.pk in favoris_ids %} ⭐ {% endif %} {{ album.titre }}</h5>
                             <p class="card-text">{{ album.artiste }} — {{ album.annee_sortie }}</p>
 
                             <a href="{% url 'vinylvault:detail_album' pk=album.pk %}" class="btn btn-sm btn-outline-primary">

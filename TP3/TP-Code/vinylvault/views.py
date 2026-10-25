@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Album, Artiste, Song
-from .forms import ArtisteForm, AlbumForm, SongForm
+from django.contrib.auth.decorators import login_required
+from .models import Album, AlbumUtilisateur, Artiste, Song
+from .forms import ArtisteForm, AlbumForm, AlbumUtilisateurForm, SongForm
 from django.core.paginator import Paginator
 
 def accueil(request):
@@ -19,9 +20,14 @@ def liste_albums(request):
     page_number = request.GET.get('page') or 1
 
     #ajouter le détail de la page en contexte (pour comprendre le param en ?get )
+    favoris_ids = []
+    if request.user.is_authenticated:
+        favoris_ids = AlbumUtilisateur.objects.filter(user=request.user, isFavori=True).values_list('album_id', flat=True)
+
     context = {
         'range_pages': range(1, paginator.num_pages + 1),
         'page_albums': paginator.get_page(page_number),
+        'favoris_ids': list(favoris_ids),
     }
 
     return render(request, 'vinylvault/album/liste_albums.html', context)
@@ -29,7 +35,36 @@ def liste_albums(request):
 
 def detail_album(request, pk):
     album = get_object_or_404(Album, pk=pk)
-    return render(request, 'vinylvault/album/detail_album.html', {'album': album})
+
+    # infos perso du user connecté sur cet album (None si pas connecté ou jamais modifié)
+    infos = None
+    form_infos = None
+    if request.user.is_authenticated:
+        infos = AlbumUtilisateur.objects.filter(user=request.user, album=album).first()
+        form_infos = AlbumUtilisateurForm(instance=infos)  # form direct dans la section "Ma collection"
+
+    return render(request, 'vinylvault/album/detail_album.html', {'album': album, 'infos': infos, 'form_infos': form_infos})
+
+
+@login_required
+def modifier_infos_album(request, pk):
+    # statut / note / coup de coeur du user connecté seulement, l'album lui-meme change pas
+    album = get_object_or_404(Album, pk=pk)
+    if request.method != 'POST':
+        return redirect('vinylvault:detail_album', pk=album.pk)
+
+    infos = AlbumUtilisateur.objects.filter(user=request.user, album=album).first()
+    form = AlbumUtilisateurForm(request.POST, instance=infos)
+    if form.is_valid():
+        infos = form.save(commit=False)
+        infos.user = request.user
+        infos.album = album
+        infos.save()
+        messages.success(request, "Ta collection a été mise à jour.")
+        return redirect('vinylvault:detail_album', pk=album.pk)
+
+    messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+    return render(request, 'vinylvault/album/detail_album.html', {'album': album, 'infos': infos, 'form_infos': form})
 
 def liste_artistes(request):
     artistes = Artiste.objects.all()

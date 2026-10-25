@@ -10,6 +10,7 @@ urlpatterns = [
     path('a-propos/', views.a_propos, name='a_propos'),
     path('albums/', views.liste_albums, name='liste_albums'),
     path('albums/<int:pk>/', views.detail_album, name='detail_album'),
+    path('albums/<int:pk>/mes-infos/', views.modifier_infos_album, name='modifier_infos_album'),
 
     path('artistes/', views.liste_artistes, name='liste_artistes'),
     path('artistes/ajouter/', views.ajouter_artiste, name='ajouter_artiste'),

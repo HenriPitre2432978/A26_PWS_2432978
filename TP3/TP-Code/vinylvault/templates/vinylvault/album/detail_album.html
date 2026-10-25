@@ -15,7 +15,40 @@
     <p><strong>Artiste :</strong> {{ album.artiste }}</p>
     <p><strong>Genre :</strong> {{ album.genre|default:"Non spécifié" }}</p>
     <p><strong>Année :</strong> {{ album.annee_sortie }}</p>
-    <p><strong>Note :</strong> {{ album.note }}/5</p>
+
+    <!-- section perso : change selon le user connecté -->
+    <div class="bg-dark text-white rounded-3 p-3 mb-3">
+        <h3>Ma collection</h3>
+        {% if user.is_authenticated %}
+            {% if not infos %}
+                <p class="small text-white-50">Cet album n'est pas encore dans ta collection.</p>
+            {% endif %}
+            <form method="post" action="{% url 'vinylvault:modifier_infos_album' pk=album.pk %}" class="row g-2 align-items-end">
+                {% csrf_token %}
+                <div class="col-md-5">
+                    <label for="{{ form_infos.statut.id_for_label }}" class="form-label">Statut</label>
+                    {{ form_infos.statut }}
+                    {{ form_infos.statut.errors }}
+                </div>
+                <div class="col-md-2">
+                    <label for="{{ form_infos.note.id_for_label }}" class="form-label">Ma note /5</label>
+                    {{ form_infos.note }}
+                    {{ form_infos.note.errors }}
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check mb-2">
+                        {{ form_infos.isFavori }}
+                        <label for="{{ form_infos.isFavori.id_for_label }}" class="form-check-label">⭐ Coup de coeur</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+                </div>
+            </form>
+        {% else %}
+            <p class="mb-0"><a href="{% url 'login' %}?next={{ request.path }}" class="link-light">Connecte-toi</a> pour ajouter cet album à ta collection, le noter ou en faire un coup de coeur.</p>
+        {% endif %}
+    </div>
 
     <h3>Chansons</h3>
     <a href="{% url 'vinylvault:ajouter_chanson' album_pk=album.pk %}" class="btn btn-sm btn-primary mb-2">+ Ajouter une chanson</a>

@@ -4,7 +4,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 
 from .forms import AlbumForm
-from .models import Artiste, Genre, Album, Song
+from .models import Artiste, Genre, Album, AlbumUtilisateur, Song
 
 @admin.register(Artiste)
 class ArtisteAdmin(admin.ModelAdmin):
@@ -118,13 +118,10 @@ class SongInline(admin.TabularInline):
 class AlbumAdmin(admin.ModelAdmin):
     form = AlbumForm  
 
-    #personnel au gout de l'utilisateur donc pas dans l'admin (une excuse pour utiliser exclude dans le fond)
-    exclude = ['note',]
-
     inlines = [SongInline,]
-    list_editable = ['statut', 'isFavori',]  # modifiable direct dans la liste, sans ouvrir l'album
-    list_display = ['album_titre_with_image', 'artiste', 'genre', 'annee_sortie', 'statut', 'isFavori']
-    list_filter = ['isFavori','statut','genre',]
+    list_editable = ['genre', 'annee_sortie',]  # modifiable direct dans la liste, sans ouvrir l'album
+    list_display = ['album_titre_with_image', 'artiste', 'genre', 'annee_sortie']
+    list_filter = ['genre', 'artiste',]
     ordering = ['titre',]
     readonly_fields = ['image_preview',]
     search_fields = ['titre', 'artiste__nom']
@@ -154,6 +151,16 @@ class AlbumAdmin(admin.ModelAdmin):
         if obj:  # si c'est pdt modif
             return self.readonly_fields
         return []
+
+
+@admin.register(AlbumUtilisateur)
+class AlbumUtilisateurAdmin(admin.ModelAdmin):
+    #note personnelle d'un user donc l'admin ne peut pas la changer(exclude)
+    exclude = ['note',]
+    list_display = ['user', 'album', 'statut', 'note', 'isFavori']
+    list_filter = ['statut', 'isFavori', 'user',]
+    ordering = ['user', 'album',]
+    search_fields = ['album__titre', 'user__username']
 
 
 @admin.register(Song)
