@@ -6,8 +6,8 @@
     <h1>{{ album.titre }}</h1>
 
     <!-- image du media sinon image par défaut du static -->
-    {% if album.image %}
-    <img src="{% get_media_prefix %}{{ album.image }}" alt="{{ album.titre }}" class="img-thumbnail album-cover-detail mb-3" />
+    {% if album.pochette %}
+    <img src="{{ album.pochette }}" alt="{{ album.titre }}" class="img-thumbnail album-cover-detail mb-3" />
     {% else %}
     <img src="{% static 'vinylvault/images/default-image.webp' %}" alt="{{ album.titre }}" class="img-thumbnail album-cover-detail mb-3" />
     {% endif %}

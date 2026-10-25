@@ -5,9 +5,9 @@
     <h1>{% translate "Confirmer la suppression" %}</h1>
     <p>{% blocktranslate with titre=album.titre %}Es-tu sûr de vouloir supprimer l'album <strong>{{ titre }}</strong> ?{% endblocktranslate %}</p>
     <!-- show img si existante seulement sinon rien -->
-    {% if album.image %}
+    {% if album.pochette %}
     <div class="mb-3">
-        <img class="img-thumbnail album-cover-detail" src="{% get_media_prefix %}{{ album.image }}" alt="{{ album.titre }}" />
+        <img class="img-thumbnail album-cover-detail" src="{{ album.pochette }}" alt="{{ album.titre }}" />
     </div>
     {% endif %}
     <form method="post">

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 14:09-0400\n"
+"POT-Creation-Date: 2026-10-25 14:44-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\config\settings.py:117
+msgid "Français"
+msgstr "French"
+
+#: .\config\settings.py:118
+msgid "English"
+msgstr "English"
 
 #: .\member_app\apps.py:8
 msgid "Membres"
@@ -127,7 +135,7 @@ msgstr "Close"
 msgid "Aucun album associé"
 msgstr "No associated albums"
 
-#: .\vinylvault\admin.py:46 .\vinylvault\admin.py:97 .\vinylvault\views.py:132
+#: .\vinylvault\admin.py:46 .\vinylvault\admin.py:97 .\vinylvault\views.py:131
 msgid "Ajouter un album"
 msgstr "Add an album"
 
@@ -148,23 +156,23 @@ msgstr "Title"
 msgid "Prévisualisation"
 msgstr "Preview"
 
-#: .\vinylvault\forms.py:33
+#: .\vinylvault\forms.py:34
 msgid "L'année doit être entre 1900 et celle actuelle."
 msgstr "The year must be between 1900 and the current year."
 
-#: .\vinylvault\forms.py:51
+#: .\vinylvault\forms.py:52
 msgid "La note doit être entre 0 et 5."
 msgstr "The rating must be between 0 and 5."
 
-#: .\vinylvault\forms.py:60
+#: .\vinylvault\forms.py:61
 msgid "ex: 3:45"
 msgstr "e.g. 3:45"
 
-#: .\vinylvault\forms.py:76
+#: .\vinylvault\forms.py:77
 msgid "Le format doit être m:ss ou mm:ss (ex: 3:45, 12:07)."
 msgstr "The format must be m:ss or mm:ss (e.g. 3:45, 12:07)."
 
-#: .\vinylvault\forms.py:85
+#: .\vinylvault\forms.py:86
 #, python-format
 msgid "Le numéro doit être supérieur au dernier numéro existant (%(dernier)s)."
 msgstr ""
@@ -194,7 +202,7 @@ msgstr "genre"
 msgid "genres"
 msgstr "genres"
 
-#: .\vinylvault\models.py:29 .\vinylvault\models.py:68
+#: .\vinylvault\models.py:29 .\vinylvault\models.py:77
 msgid "titre"
 msgstr "title"
 
@@ -206,61 +214,65 @@ msgstr "release year"
 msgid "image"
 msgstr "image"
 
-#: .\vinylvault\models.py:37 .\vinylvault\models.py:52
-#: .\vinylvault\models.py:67
+#: .\vinylvault\models.py:36
+msgid "URL de la pochette"
+msgstr "Cover's URL"
+
+#: .\vinylvault\models.py:39 .\vinylvault\models.py:61
+#: .\vinylvault\models.py:76
 msgid "album"
 msgstr "album"
 
-#: .\vinylvault\models.py:38
+#: .\vinylvault\models.py:40
 msgid "albums"
 msgstr "albums"
 
-#: .\vinylvault\models.py:47
+#: .\vinylvault\models.py:56
 msgid "Possédé"
 msgstr "Owned"
 
-#: .\vinylvault\models.py:48
+#: .\vinylvault\models.py:57
 msgid "Sur ma liste de souhaits"
 msgstr "On my wishlist"
 
-#: .\vinylvault\models.py:51
+#: .\vinylvault\models.py:60
 msgid "utilisateur"
 msgstr "user"
 
-#: .\vinylvault\models.py:53
+#: .\vinylvault\models.py:62
 msgid "statut"
 msgstr "status"
 
-#: .\vinylvault\models.py:54
+#: .\vinylvault\models.py:63
 msgid "note"
 msgstr "rating"
 
-#: .\vinylvault\models.py:55
+#: .\vinylvault\models.py:64
 #: .\vinylvault\templates\vinylvault\album\detail_album.html:41
 msgid "Coup de coeur"
 msgstr "Favourite"
 
-#: .\vinylvault\models.py:59
+#: .\vinylvault\models.py:68
 msgid "album d'un utilisateur"
 msgstr "user album"
 
-#: .\vinylvault\models.py:60
+#: .\vinylvault\models.py:69
 msgid "albums des utilisateurs"
 msgstr "user albums"
 
-#: .\vinylvault\models.py:69
+#: .\vinylvault\models.py:78
 msgid "durée"
 msgstr "duration"
 
-#: .\vinylvault\models.py:70
+#: .\vinylvault\models.py:79
 msgid "Numéro"
 msgstr "Track number"
 
-#: .\vinylvault\models.py:74
+#: .\vinylvault\models.py:83
 msgid "chanson"
 msgstr "song"
 
-#: .\vinylvault\models.py:75
+#: .\vinylvault\models.py:84
 msgid "chansons"
 msgstr "songs"
 
@@ -543,68 +555,62 @@ msgstr "Add a song"
 msgid "Ajouter une chanson | %(titre)s"
 msgstr "Add a song | %(titre)s"
 
-#: .\vinylvault\views.py:67
+#: .\vinylvault\views.py:66
 msgid "Ta collection a été mise à jour."
 msgstr "Your collection has been updated."
 
-#: .\vinylvault\views.py:70 .\vinylvault\views.py:87 .\vinylvault\views.py:101
-#: .\vinylvault\views.py:129 .\vinylvault\views.py:144
-#: .\vinylvault\views.py:173
+#: .\vinylvault\views.py:69 .\vinylvault\views.py:86 .\vinylvault\views.py:100
+#: .\vinylvault\views.py:128 .\vinylvault\views.py:143
+#: .\vinylvault\views.py:172
 msgid "Le formulaire contient des erreurs, vérifiez les champs."
 msgstr "The form contains errors, please check the fields."
 
-#: .\vinylvault\views.py:84
+#: .\vinylvault\views.py:83
 msgid "L'artiste a été ajouté avec succès."
 msgstr "The artist was added successfully."
 
-#: .\vinylvault\views.py:90
+#: .\vinylvault\views.py:89
 msgid "Ajouter un artiste"
 msgstr "Add an artist"
 
-#: .\vinylvault\views.py:97 .\vinylvault\views.py:102
+#: .\vinylvault\views.py:96 .\vinylvault\views.py:101
 msgid "Modifier l'artiste"
 msgstr "Edit artist"
 
-#: .\vinylvault\views.py:105
+#: .\vinylvault\views.py:104
 msgid "L'artiste a été modifié avec succès."
 msgstr "The artist was updated successfully."
 
-#: .\vinylvault\views.py:114
+#: .\vinylvault\views.py:113
 #, python-format
 msgid "L'artiste « %(nom)s » a été supprimé."
 msgstr "The artist “%(nom)s” was deleted."
 
-#: .\vinylvault\views.py:126
+#: .\vinylvault\views.py:125
 msgid "L'album a été ajouté avec succès."
 msgstr "The album was added successfully."
 
-#: .\vinylvault\views.py:141
+#: .\vinylvault\views.py:140
 msgid "L'album a été modifié avec succès."
 msgstr "The album was updated successfully."
 
-#: .\vinylvault\views.py:147
+#: .\vinylvault\views.py:146
 msgid "Modifier l'album"
 msgstr "Edit album"
 
-#: .\vinylvault\views.py:155
+#: .\vinylvault\views.py:154
 #, python-format
 msgid "L'album « %(titre)s » a été supprimé."
 msgstr "The album “%(titre)s” was deleted."
 
-#: .\vinylvault\views.py:170
+#: .\vinylvault\views.py:169
 msgid "La chanson a été ajoutée avec succès."
 msgstr "The song was added successfully."
 
-#: .\vinylvault\views.py:182
+#: .\vinylvault\views.py:181
 msgid "Ton compte n'a pas la permission de faire cette action."
 msgstr "Your account doesn't have permission to do this."
 
-#: .\vinylvault\views.py:184
+#: .\vinylvault\views.py:183
 msgid "Tu dois être connecté pour faire cette action."
 msgstr "You must be logged in to do this."
-
-#~ msgid "Français"
-#~ msgstr "French"
-
-#~ msgid "English"
-#~ msgstr "English"

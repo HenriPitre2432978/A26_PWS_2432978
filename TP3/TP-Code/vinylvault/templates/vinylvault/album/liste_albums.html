@@ -5,7 +5,14 @@
     <h1>{% translate "Catalogue d'albums" %}</h1>
     <a href="{% url 'vinylvault:ajouter_album' %}" class="btn btn-primary mb-3">
         {% translate "+ Ajouter un album" %}
-    </a>
+    </a>        
+    <p class="text-warning">
+        Les images des albums ont été liées entièrement par IAg car je n'ai 
+        pas réussi à les ajouter dans les fixtures car je dois les télécharder
+        dans Media une par une. Ainsi, c'est plutôt un ajout esthétique et 
+        je ne le considère par réellement comme un ajout à mon travail ! 
+        Il est tout de même à noter qu'il est possible de téléverser une image sur le site lors de la création d'un album, et que cette fonctionnalité a été réalisée entièrement par moi.    
+    </p>
 
     {% if page_albums %}
         <div class="row">
@@ -13,8 +20,8 @@
                 <div class="col-md-4 mb-3">
                     <div class="card bg-white bg-opacity-75 ">
                         <!-- image du media sinon image par défaut du static -->
-                        {% if album.image %}
-                        <img src="{% get_media_prefix %}{{ album.image }}" alt="{{ album.titre }}" class="card-img-top album-cover" />
+                        {% if album.pochette %}
+                        <img src="{{ album.pochette }}" alt="{{ album.titre }}" class="card-img-top album-cover" />
                         {% else %}
                         <img src="{% static 'vinylvault/images/default-image.webp' %}" alt="{{ album.titre }}" class="card-img-top album-cover" />
                         {% endif %}

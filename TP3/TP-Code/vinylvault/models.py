@@ -31,7 +31,9 @@ class Album(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True, related_name='albums', verbose_name=_("genre"))
     annee_sortie = models.IntegerField(verbose_name=_("année de sortie"))
 
-    image = models.ImageField(default="", upload_to='albums/', verbose_name=_("image"))
+    image = models.ImageField(default="", blank=True, upload_to='albums/', verbose_name=_("image"))
+    # pochette en ligne (ex: Cover Art Archive), utilisée si aucune image n'est uploadée
+    image_url = models.URLField(blank=True, verbose_name=_("URL de la pochette"))
 
     class Meta:
         verbose_name = _("album")
@@ -39,6 +41,13 @@ class Album(models.Model):
 
     def __str__(self):
         return f"{self.titre} — {self.artiste}"
+
+    @property
+    def pochette(self):
+        # image uploadée en priorité, sinon l'URL en ligne, sinon "" (le template met l'image par défaut)
+        if self.image:
+            return self.image.url
+        return self.image_url
 
 
 # infos uniques du user À PROPOS de l'album

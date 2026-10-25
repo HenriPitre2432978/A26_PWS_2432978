@@ -129,13 +129,13 @@ class AlbumAdmin(admin.ModelAdmin):
     search_fields = ['titre', 'artiste__nom']
 
     def album_titre_with_image(self, obj):
-        if obj.image:
+        if obj.pochette:
             return format_html(
                 '<span style="display:flex; align-items:center;">'
                 '<img src="{}" style="max-width:32px; margin-right:6px;" />'
                 '{}'
                 '</span>',
-                obj.image.url,
+                obj.pochette,
                 obj.titre,
             )
         return obj.titre
@@ -143,8 +143,8 @@ class AlbumAdmin(admin.ModelAdmin):
     album_titre_with_image.admin_order_field = 'titre'
 
     def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" style="max-width:200px" />', obj.image.url)
+        if obj.pochette:
+            return format_html('<img src="{}" style="max-width:200px" />', obj.pochette)
         return ""
     image_preview.short_description = _("Prévisualisation")
 

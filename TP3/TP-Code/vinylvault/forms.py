@@ -17,7 +17,7 @@ class ArtisteForm(forms.ModelForm):
 class AlbumForm(forms.ModelForm):
     class Meta:
         model = Album
-        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'image']
+        fields = ['titre', 'artiste', 'genre', 'annee_sortie', 'image', 'image_url']
         
         #respecify forms to add bootstrap classes
         widgets = {
@@ -26,6 +26,7 @@ class AlbumForm(forms.ModelForm):
             'genre': forms.Select(attrs={'class': 'form-select'}),
             'annee_sortie': forms.NumberInput(attrs={'class': 'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'image_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://...'}),
         }
     def clean_annee_sortie(self):
         annee = self.cleaned_data['annee_sortie']
