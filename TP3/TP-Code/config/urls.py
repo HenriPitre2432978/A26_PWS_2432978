@@ -23,6 +23,7 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls), #redirect to admin url dispatcher
     path('', include('vinylvault.urls')), #redirect any other link to the site's url dispatcher
+    path('member/', include('member_app.urls')), #redirect to login app
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
