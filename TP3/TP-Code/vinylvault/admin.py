@@ -2,12 +2,13 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
+from modeltranslation.admin import TranslationAdmin
 
 from .forms import AlbumForm
 from .models import Artiste, Genre, Album, AlbumUtilisateur, Song
 
 @admin.register(Artiste)
-class ArtisteAdmin(admin.ModelAdmin):
+class ArtisteAdmin(TranslationAdmin):
     list_display = ("nom", "pays", "view_albums_link")
     list_filter = ['pays',]
     ordering = ['nom',]
@@ -59,7 +60,7 @@ class ArtisteAdmin(admin.ModelAdmin):
 
 
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+class GenreAdmin(TranslationAdmin):
     list_display = ("nom", "view_albums_link")
     ordering = ['nom',]
     search_fields = ['nom']

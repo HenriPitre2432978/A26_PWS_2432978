@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), #redirect to admin url dispatcher
     path('', include('vinylvault.urls')), #redirect any other link to the site's url dispatcher
     path('member/', include('member_app.urls')), #redirect to login app
+    path('i18n/', include('django.conf.urls.i18n')), #redirect to translate by django
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

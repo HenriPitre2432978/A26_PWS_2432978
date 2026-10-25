@@ -104,7 +104,7 @@ def modifier_artiste(request, pk):
     messages.success(request, "L'artiste a été modifié avec succès.")
     return redirect('vinylvault:liste_artistes')
 
-@permission_required('vinylvault.delete_artist',raise_exception=True)
+@permission_required('vinylvault.delete_artiste',raise_exception=True)
 def supprimer_artiste(request, pk):
     artiste = get_object_or_404(Artiste, pk=pk)
     if request.method == 'POST':
