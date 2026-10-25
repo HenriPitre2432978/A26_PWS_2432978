@@ -5,6 +5,9 @@ from .models import Album, AlbumUtilisateur, Artiste, Song
 from .forms import ArtisteForm, AlbumForm, AlbumUtilisateurForm, SongForm
 from django.core.paginator import Paginator
 
+#j'utilise cette façon de permission car la démo utilise des classes et pas des views
+from django.contrib.auth.decorators import permission_required 
+
 def accueil(request):
     return render(request, 'vinylvault/accueil.html')
 
@@ -71,6 +74,7 @@ def liste_artistes(request):
     return render(request, 'vinylvault/artiste/liste_artistes.html', {'artistes': artistes})
 
 #=========================== Artiste
+@permission_required('vinylvault.add_artiste',raise_exception=True)
 def ajouter_artiste(request):
     if request.method == 'POST':
         form = ArtisteForm(request.POST)
@@ -84,7 +88,7 @@ def ajouter_artiste(request):
         form = ArtisteForm()
     return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': 'Ajouter un artiste'})
 
-
+@permission_required('vinylvault.change_artiste',raise_exception=True)
 def modifier_artiste(request, pk):
     artiste = get_object_or_404(Artiste, pk=pk)
     if request.method != 'POST':
@@ -100,7 +104,7 @@ def modifier_artiste(request, pk):
     messages.success(request, "L'artiste a été modifié avec succès.")
     return redirect('vinylvault:liste_artistes')
 
-
+@permission_required('vinylvault.delete_artist',raise_exception=True)
 def supprimer_artiste(request, pk):
     artiste = get_object_or_404(Artiste, pk=pk)
     if request.method == 'POST':
@@ -112,7 +116,7 @@ def supprimer_artiste(request, pk):
 
 
 #=========================== Album
-
+@permission_required('vinylvault.add_album',raise_exception=True)
 def ajouter_album(request):
     if request.method == 'POST':
         form = AlbumForm(request.POST, request.FILES)
@@ -126,7 +130,7 @@ def ajouter_album(request):
         form = AlbumForm()
     return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': 'Ajouter un album'})
 
-
+@permission_required('vinylvault.change_album',raise_exception=True)
 def modifier_album(request, pk):
     album = get_object_or_404(Album, pk=pk)
     if request.method == 'POST':
@@ -141,7 +145,7 @@ def modifier_album(request, pk):
         form = AlbumForm(instance=album)
     return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': "Modifier l'album"})
 
-
+@permission_required('vinylvault.delete_album',raise_exception=True)
 def supprimer_album(request, pk):
     album = get_object_or_404(Album, pk=pk)
     if request.method == 'POST':
@@ -152,7 +156,7 @@ def supprimer_album(request, pk):
     return render(request, 'vinylvault/album/album_confirm_delete.html', {'album': album})
 
 #=========================== chanson
-
+@permission_required('vinylvault.add_song',raise_exception=True)
 def ajouter_chanson(request, album_pk):
     # album_pk vient direct de l'URL, pas besoin de le faire choisir dans le formulaire
     album = get_object_or_404(Album, pk=album_pk)
@@ -169,3 +173,14 @@ def ajouter_chanson(request, album_pk):
     else:
         form = SongForm(album=album)
     return render(request, 'vinylvault/song_form.html', {'form': form, 'album': album})
+
+#========================== Permission
+def not_allowed(request, exception=None):
+    #called quand permission exception
+    if request.user.is_authenticated:
+        messages.error(request, "Ton compte n'a pas la permission de faire cette action.")
+    else:
+        messages.error(request, "Tu dois être connecté pour faire cette action.")
+
+    #return à la page ou t'étais si dispo ou à home
+    return redirect('vinylvault:liste_albums')
