@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext, gettext_lazy as _
 from modeltranslation.admin import TranslationAdmin
 
 from .forms import AlbumForm
@@ -21,7 +22,7 @@ class ArtisteAdmin(TranslationAdmin):
 
         albums = obj.albums.all()
         if not albums:
-            album_links = "Aucun album associé"
+            album_links = gettext("Aucun album associé")
         else:
             album_links = format_html_join(
                 mark_safe("<br>"),
@@ -41,22 +42,22 @@ class ArtisteAdmin(TranslationAdmin):
             + f"?artiste={obj.pk}"
         )
         add_link = format_html(
-            '<br><br><a class="addlink" href="{}">Ajouter un album</a>',
-            add_url
+            '<br><br><a class="addlink" href="{}">{}</a>',
+            add_url, gettext("Ajouter un album")
         )
 
         return format_html("{}{}", album_links, add_link)
 
-    albums_list.short_description = "Albums associés"
+    albums_list.short_description = _("Albums associés")
 
     def view_albums_link(self, obj):
         url = (
             reverse("admin:vinylvault_album_changelist")
             + f"?artiste__id__exact={obj.id}"
         )
-        return format_html('<a href="{}">Voir les albums</a>', url)
+        return format_html('<a href="{}">{}</a>', url, gettext("Voir les albums"))
 
-    view_albums_link.short_description = "Albums associés"
+    view_albums_link.short_description = _("Albums associés")
 
 
 @admin.register(Genre)
@@ -72,7 +73,7 @@ class GenreAdmin(TranslationAdmin):
 
         albums = obj.albums.all()
         if not albums:
-            album_links = "Aucun album associé"
+            album_links = gettext("Aucun album associé")
         else:
             album_links = format_html_join(
                 mark_safe("<br>"),
@@ -92,22 +93,22 @@ class GenreAdmin(TranslationAdmin):
             + f"?genre={obj.pk}"
         )
         add_link = format_html(
-            '<br><br><a class="addlink" href="{}">Ajouter un album</a>',
-            add_url
+            '<br><br><a class="addlink" href="{}">{}</a>',
+            add_url, gettext("Ajouter un album")
         )
 
         return format_html("{}{}", album_links, add_link)
 
-    albums_list.short_description = "Albums associés"
+    albums_list.short_description = _("Albums associés")
 
     def view_albums_link(self, obj):
         url = (
             reverse("admin:vinylvault_album_changelist")
             + f"?genre__id__exact={obj.id}"
         )
-        return format_html('<a href="{}">Voir les albums</a>', url)
+        return format_html('<a href="{}">{}</a>', url, gettext("Voir les albums"))
 
-    view_albums_link.short_description = "Albums associés"
+    view_albums_link.short_description = _("Albums associés")
 
 class SongInline(admin.TabularInline):
     # Affichage et modification DANS l'affichage album admin
@@ -138,14 +139,14 @@ class AlbumAdmin(admin.ModelAdmin):
                 obj.titre,
             )
         return obj.titre
-    album_titre_with_image.short_description = "Titre"
+    album_titre_with_image.short_description = _("Titre")
     album_titre_with_image.admin_order_field = 'titre'
 
     def image_preview(self, obj):
         if obj.image:
             return format_html('<img src="{}" style="max-width:200px" />', obj.image.url)
         return ""
-    image_preview.short_description = "Prévisualisation"
+    image_preview.short_description = _("Prévisualisation")
 
     def get_readonly_fields(self, request, obj=None):
         # Permet de ne pas afficher "Image Preview" lors de l'ajout

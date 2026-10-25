@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}Artistes{% endblock %}
+{% load i18n %}
+{% block title %}{% translate "Artistes" %}{% endblock %}
 {% block content %}
-    <h1>Artistes</h1>
-    <a href="{% url 'vinylvault:ajouter_artiste' %}" class="btn btn-primary mb-3">+ Ajouter un artiste</a>
+    <h1>{% translate "Artistes" %}</h1>
+    <a href="{% url 'vinylvault:ajouter_artiste' %}" class="btn btn-primary mb-3">{% translate "+ Ajouter un artiste" %}</a>
 
     {% if artistes %}
     <div class="tableholder p-3 rounded-3">
         <table class="table">
             <thead>
-                <tr><th>Nom</th><th>Pays</th><th>Actions</th></tr>
+                <tr><th>{% translate "Nom" %}</th><th>{% translate "Pays" %}</th><th>{% translate "Actions" %}</th></tr>
             </thead>
             <tbody>
                 {% for artiste in artistes %}
@@ -16,8 +17,8 @@
                     <td>{{ artiste.nom }}</td>
                     <td>{{ artiste.pays|default:"—" }}</td>
                     <td>
-                        <a href="{% url 'vinylvault:modifier_artiste' pk=artiste.pk %}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-                        <a href="{% url 'vinylvault:supprimer_artiste' pk=artiste.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                        <a href="{% url 'vinylvault:modifier_artiste' pk=artiste.pk %}" class="btn btn-sm btn-outline-secondary">{% translate "Modifier" %}</a>
+                        <a href="{% url 'vinylvault:supprimer_artiste' pk=artiste.pk %}" class="btn btn-sm btn-outline-danger">{% translate "Supprimer" %}</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -25,6 +26,6 @@
         </table>
     </div>
     {% else %}
-        <p>Aucun artiste enregistré.</p>
+        <p>{% translate "Aucun artiste enregistré." %}</p>
     {% endif %}
 {% endblock %}

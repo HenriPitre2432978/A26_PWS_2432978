@@ -2,6 +2,7 @@ from django import forms
 import re
 from .models import Artiste, Album, AlbumUtilisateur, Song
 from datetime import datetime
+from django.utils.translation import gettext_lazy as _
 
 class ArtisteForm(forms.ModelForm):
     class Meta:
@@ -29,7 +30,7 @@ class AlbumForm(forms.ModelForm):
     def clean_annee_sortie(self):
         annee = self.cleaned_data['annee_sortie']
         if annee < 1900 or annee > datetime.now().year:
-            raise forms.ValidationError("L'année doit être entre 1900 et celle actuelle.")
+            raise forms.ValidationError(_("L'année doit être entre 1900 et celle actuelle."))
         return annee
 
 
@@ -47,7 +48,7 @@ class AlbumUtilisateurForm(forms.ModelForm):
     def clean_note(self):
         note = self.cleaned_data['note']
         if note < 0 or note > 5:
-            raise forms.ValidationError("La note doit être entre 0 et 5.")
+            raise forms.ValidationError(_("La note doit être entre 0 et 5."))
         return note
 
 class SongForm(forms.ModelForm):
@@ -56,7 +57,7 @@ class SongForm(forms.ModelForm):
         fields = ['titre', 'duree', 'nb']
         widgets = {
             'titre': forms.TextInput(attrs={'class': 'form-control'}),
-            'duree': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'ex: 3:45'}),
+            'duree': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('ex: 3:45')}),
             'nb': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
         }
 
@@ -72,7 +73,7 @@ class SongForm(forms.ModelForm):
     def clean_duree(self):
         duree = self.cleaned_data['duree']
         if not re.match(r'^\d{1,2}:\d{2}$', duree):
-            raise forms.ValidationError("Le format doit être m:ss ou mm:ss (ex: 3:45, 12:07).")
+            raise forms.ValidationError(_("Le format doit être m:ss ou mm:ss (ex: 3:45, 12:07)."))
         return duree
 
     def clean_nb(self):
@@ -81,6 +82,6 @@ class SongForm(forms.ModelForm):
             dernier = self.album.songs.order_by('-nb').first()
             if dernier is not None and nb <= dernier.nb:
                 raise forms.ValidationError(
-                    f"Le numéro doit être supérieur au dernier numéro existant ({dernier.nb})."
+                    _("Le numéro doit être supérieur au dernier numéro existant (%(dernier)s).") % {'dernier': dernier.nb}
                 )
         return nb

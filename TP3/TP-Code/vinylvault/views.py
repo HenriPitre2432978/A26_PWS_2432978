@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Album, AlbumUtilisateur, Artiste, Song
 from .forms import ArtisteForm, AlbumForm, AlbumUtilisateurForm, SongForm
 from django.core.paginator import Paginator
+from django.utils.translation import gettext as _
 
 #j'utilise cette façon de permission car la démo utilise des classes et pas des views
 from django.contrib.auth.decorators import permission_required 
@@ -63,10 +64,10 @@ def modifier_infos_album(request, pk):
         infos.user = request.user
         infos.album = album
         infos.save()
-        messages.success(request, "Ta collection a été mise à jour.")
+        messages.success(request, _("Ta collection a été mise à jour."))
         return redirect('vinylvault:detail_album', pk=album.pk)
 
-    messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+    messages.error(request, _("Le formulaire contient des erreurs, vérifiez les champs."))
     return render(request, 'vinylvault/album/detail_album.html', {'album': album, 'infos': infos, 'form_infos': form})
 
 def liste_artistes(request):
@@ -80,28 +81,28 @@ def ajouter_artiste(request):
         form = ArtisteForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "L'artiste a été ajouté avec succès.")
+            messages.success(request, _("L'artiste a été ajouté avec succès."))
             return redirect('vinylvault:liste_artistes')
         else:
-            messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+            messages.error(request, _("Le formulaire contient des erreurs, vérifiez les champs."))
     else:
         form = ArtisteForm()
-    return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': 'Ajouter un artiste'})
+    return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': _('Ajouter un artiste')})
 
 @permission_required('vinylvault.change_artiste',raise_exception=True)
 def modifier_artiste(request, pk):
     artiste = get_object_or_404(Artiste, pk=pk)
     if request.method != 'POST':
         form = ArtisteForm(instance=artiste)
-        return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
+        return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': _("Modifier l'artiste")})
 
     form = ArtisteForm(request.POST, instance=artiste)
     if not form.is_valid():
-        messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
-        return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': "Modifier l'artiste"})
+        messages.error(request, _("Le formulaire contient des erreurs, vérifiez les champs."))
+        return render(request, 'vinylvault/artiste/artiste_form.html', {'form': form, 'titre': _("Modifier l'artiste")})
 
     form.save()
-    messages.success(request, "L'artiste a été modifié avec succès.")
+    messages.success(request, _("L'artiste a été modifié avec succès."))
     return redirect('vinylvault:liste_artistes')
 
 @permission_required('vinylvault.delete_artiste',raise_exception=True)
@@ -110,7 +111,7 @@ def supprimer_artiste(request, pk):
     if request.method == 'POST':
         nom = artiste.nom
         artiste.delete()
-        messages.success(request, f"L'artiste « {nom} » a été supprimé.")
+        messages.success(request, _("L'artiste « %(nom)s » a été supprimé.") % {'nom': nom})
         return redirect('vinylvault:liste_artistes')
     return render(request, 'vinylvault/artiste/artiste_confirm_delete.html', {'artiste': artiste})
 
@@ -122,13 +123,13 @@ def ajouter_album(request):
         form = AlbumForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "L'album a été ajouté avec succès.")
+            messages.success(request, _("L'album a été ajouté avec succès."))
             return redirect('vinylvault:liste_albums')
         else:
-            messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+            messages.error(request, _("Le formulaire contient des erreurs, vérifiez les champs."))
     else:
         form = AlbumForm()
-    return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': 'Ajouter un album'})
+    return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': _('Ajouter un album')})
 
 @permission_required('vinylvault.change_album',raise_exception=True)
 def modifier_album(request, pk):
@@ -137,13 +138,13 @@ def modifier_album(request, pk):
         form = AlbumForm(request.POST, request.FILES, instance=album)
         if form.is_valid():
             form.save()
-            messages.success(request, "L'album a été modifié avec succès.")
+            messages.success(request, _("L'album a été modifié avec succès."))
             return redirect('vinylvault:detail_album', pk=album.pk)
         else:
-            messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+            messages.error(request, _("Le formulaire contient des erreurs, vérifiez les champs."))
     else:
         form = AlbumForm(instance=album)
-    return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': "Modifier l'album"})
+    return render(request, 'vinylvault/album/album_form.html', {'form': form, 'titre': _("Modifier l'album")})
 
 @permission_required('vinylvault.delete_album',raise_exception=True)
 def supprimer_album(request, pk):
@@ -151,7 +152,7 @@ def supprimer_album(request, pk):
     if request.method == 'POST':
         titre = album.titre
         album.delete()
-        messages.success(request, f"L'album « {titre} » a été supprimé.")
+        messages.success(request, _("L'album « %(titre)s » a été supprimé.") % {'titre': titre})
         return redirect('vinylvault:liste_albums')
     return render(request, 'vinylvault/album/album_confirm_delete.html', {'album': album})
 
@@ -166,10 +167,10 @@ def ajouter_chanson(request, album_pk):
             song = form.save(commit=False)
             song.album = album
             song.save()
-            messages.success(request, "La chanson a été ajoutée avec succès.")
+            messages.success(request, _("La chanson a été ajoutée avec succès."))
             return redirect('vinylvault:detail_album', pk=album.pk)
         else:
-            messages.error(request, "Le formulaire contient des erreurs, vérifiez les champs.")
+            messages.error(request, _("Le formulaire contient des erreurs, vérifiez les champs."))
     else:
         form = SongForm(album=album)
     return render(request, 'vinylvault/song_form.html', {'form': form, 'album': album})
@@ -178,9 +179,9 @@ def ajouter_chanson(request, album_pk):
 def not_allowed(request, exception=None):
     #called quand permission exception
     if request.user.is_authenticated:
-        messages.error(request, "Ton compte n'a pas la permission de faire cette action.")
+        messages.error(request, _("Ton compte n'a pas la permission de faire cette action."))
     else:
-        messages.error(request, "Tu dois être connecté pour faire cette action.")
+        messages.error(request, _("Tu dois être connecté pour faire cette action."))
 
     #return à la page ou t'étais si dispo ou à home
     return redirect('vinylvault:liste_albums')

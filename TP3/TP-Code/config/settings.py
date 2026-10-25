@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
 #translate
+#La traduction de masse a été réalisé par l'IAg (https://claude.ai/share/ea919f0b-5e59-47e6-8984-7288c61f2ed2)
 
 LANGUAGE_CODE = 'fr-ca'          # French by default (already there)
 LANGUAGES = [

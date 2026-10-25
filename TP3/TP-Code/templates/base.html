@@ -1,7 +1,9 @@
 {% load static %} 
-{% load i18n %}
+<!--TRADUCTION: https://claude.ai/share/ea919f0b-5e59-47e6-8984-7288c61f2ed2-->
+{% load i18n %} 
+{% get_current_language as LANGUAGE_CODE %}
 <!doctype html>
-<html lang="fr">
+<html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}VinylVault{% endblock %}</title>
@@ -19,17 +21,17 @@
       <div class="container">
         <a class="navbar-brand" href="{% url 'vinylvault:accueil' %}">VinylVault</a>
                 <div class="navbar-nav">
-          <a class="nav-link text-white" href="{% url 'vinylvault:accueil' %}">Accueil</a>
-          <a class="nav-link text-white" href="{% url 'vinylvault:liste_albums' %}">Albums</a>
-          <a class="nav-link text-white" href="{% url 'vinylvault:liste_artistes' %}">Artistes</a>
-          <a class="nav-link text-white" href="{% url 'vinylvault:a_propos' %}">À propos</a>
+          <a class="nav-link text-white" href="{% url 'vinylvault:accueil' %}">{% translate "Accueil" %}</a>
+          <a class="nav-link text-white" href="{% url 'vinylvault:liste_albums' %}">{% translate "Albums" %}</a>
+          <a class="nav-link text-white" href="{% url 'vinylvault:liste_artistes' %}">{% translate "Artistes" %}</a>
+          <a class="nav-link text-white" href="{% url 'vinylvault:a_propos' %}">{% translate "À propos" %}</a>
           <!-- change display si connecté -->
           {% if user.is_authenticated %}
           <a class="nav-link text-white" href="{% url 'user_edit' %}">{{ user.first_name|upper }} {{ user.last_name|upper }}</a>
-          <a class="nav-link text-white" href="{% url 'logout' %}">Se déconnecter</a>
+          <a class="nav-link text-white" href="{% url 'logout' %}">{% translate "Se déconnecter" %}</a>
           {% else %}
-          <a class="nav-link text-white" href="{% url 'user_create' %}">Créer un compte</a>
-          <a class="nav-link text-white" href="{% url 'login' %}">Se connecter</a>
+          <a class="nav-link text-white" href="{% url 'user_create' %}">{% translate "Créer un compte" %}</a>
+          <a class="nav-link text-white" href="{% url 'login' %}">{% translate "Se connecter" %}</a>
           {% endif %}
 
           <!-- send langue à view set language django -->
@@ -53,7 +55,7 @@
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% translate "Fermer" %}"></button>
             </div>
         {% endfor %}
     </div>

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}Catalogue d'albums{% endblock %}
+{% load static i18n %}
+{% block title %}{% translate "Catalogue d'albums" %}{% endblock %}
 {% block content %}
-    <h1>Catalogue d'albums</h1>
+    <h1>{% translate "Catalogue d'albums" %}</h1>
     <a href="{% url 'vinylvault:ajouter_album' %}" class="btn btn-primary mb-3">
-        + Ajouter un album
+        {% translate "+ Ajouter un album" %}
     </a>
 
     {% if page_albums %}
@@ -23,14 +23,14 @@
                             <p class="card-text">{{ album.artiste }} — {{ album.annee_sortie }}</p>
 
                             <a href="{% url 'vinylvault:detail_album' pk=album.pk %}" class="btn btn-sm btn-outline-primary">
-                                Voir les détails
+                                {% translate "Voir les détails" %}
                             </a>
                         </div>
                          <a href="{% url 'vinylvault:modifier_album' pk=album.pk %}"
                         class="btn btn-sm btn-outline-secondary">
-                        Modifier
+                        {% translate "Modifier" %}
                     </a>
-                    <a href="{% url 'vinylvault:supprimer_album' pk=album.pk %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                    <a href="{% url 'vinylvault:supprimer_album' pk=album.pk %}" class="btn btn-sm btn-outline-danger">{% translate "Supprimer" %}</a>
                     </div>
                 </div>
             {% endfor %}
@@ -38,6 +38,6 @@
         {% include 'vinylvault/includes/pagination_section.html' with page_items=page_albums %}
 
     {% else %}
-        <p>Aucun album pour l'instant.</p>
+        <p>{% translate "Aucun album pour l'instant." %}</p>
     {% endif %}
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block title %}{{ titre }}{% endblock %}
 {% block content %}
     <h1>{{ titre }}</h1>
@@ -6,7 +7,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-secondary">Enregistrer</button>
-        <a href="{% url 'vinylvault:liste_albums' %}" class="btn btn-danger">Annuler</a>
+        <button type="submit" class="btn btn-secondary">{% translate "Enregistrer" %}</button>
+        <a href="{% url 'vinylvault:liste_albums' %}" class="btn btn-danger">{% translate "Annuler" %}</a>
     </form>
 {% endblock %}
