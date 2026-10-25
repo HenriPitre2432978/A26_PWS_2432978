@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#
+#https://claude.ai/share/ea919f0b-5e59-47e6-8984-7288c61f2ed2
+#
 #, fuzzy
 msgid ""
 msgstr ""

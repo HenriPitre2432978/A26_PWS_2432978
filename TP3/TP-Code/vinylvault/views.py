@@ -19,8 +19,7 @@ def liste_albums(request):
     albums = Album.objects.all()
 
     #nb items per page
-    #TODO: mettre a 9 quand les fixtures aura + de data
-    paginator = Paginator(albums, 3)
+    paginator = Paginator(albums, 9)
     page_number = request.GET.get('page') or 1
 
     #ajouter le détail de la page en contexte (pour comprendre le param en ?get )
